@@ -4,25 +4,42 @@ import HomePage from '../pages/HomePage/HomePage'
 import Orders from '../pages/Orders/Orders'
 import Profile from '../pages/Profile/Profile'
 import Search from '../pages/Search/Search'
+import Login from '../pages/Login/Login'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/homepage',
-    component: HomePage
+    component: HomePage,
+    meta: {
+      ShowFooter: true
+    }
   },
   {
     path: '/orders',
-    component: Orders
+    component: Orders,
+    meta: {
+      ShowFooter: true
+    }
   },
   {
     path: '/profile',
-    component: Profile
+    component: Profile,
+    meta: {
+      ShowFooter: true
+    }
   },
   {
     path: '/search',
-    component: Search
+    component: Search,
+    meta: {
+      ShowFooter: true
+    }
+  },
+  {
+    path: '/login',
+    component: Login
   },
   {
     path: '/',
