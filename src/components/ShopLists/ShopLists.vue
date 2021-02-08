@@ -180,7 +180,7 @@ export default {
 </script>
 
 <style lang="stylus">
-@import "../../common/stylus/mixins.styl"
+@import "../../assets/stylus/mixins.styl"
     .shop_container
       margin-bottom 50px
       .shop_list

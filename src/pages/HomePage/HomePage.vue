@@ -174,7 +174,7 @@ export default {
 </script>
 
 <style lang="stylus">
-@import "../../common/stylus/mixins.styl"
+@import "../../assets/stylus/mixins.styl"
   .msite
     width 100%
     .msite_nav
