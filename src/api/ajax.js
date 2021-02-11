@@ -7,7 +7,7 @@ export default function ajax (url, data = {}, type = 'GET') {
     if (type === 'GET') {
       let query = url + '?'
       Object.keys(data).forEach(item => {
-        query += `${data[item]}&`
+        query += `${item}=${data[item]}&`
       })
       url = query.slice(1, -1)
       promise = axios.get(url)

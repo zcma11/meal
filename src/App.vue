@@ -7,17 +7,15 @@
 
 <script>
 import FooterGuide from './components/FooterGuide/FooterGuide'
-import { reqFoodCategory } from './api/index'
 export default {
-  async mounted () {
-    const re = await reqFoodCategory()
-    console.log(re)
+  mounted () {
+    this.$store.dispatch('getAddress')
+    this.$store.dispatch('getFoodCategory')
+    this.$store.dispatch('getShopList')
+    this.$store.dispatch('autoLogin')
   },
   components: {
     FooterGuide
-  },
-  data () {
-    return {}
   }
 }
 </script>

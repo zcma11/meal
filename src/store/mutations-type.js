@@ -1,0 +1,5 @@
+export const RECEIVE_ADDRESS = 'receive_address'
+export const RECEIVE_CATEGORY = 'receive_category'
+export const RECEIVE_SHOPS = 'receive_shops'
+export const SET_USER_INFO = 'set_user_info'
+export const RESET_USER_INFO = 'reset_user_info'

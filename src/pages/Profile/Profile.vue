@@ -7,17 +7,17 @@
         </a>
       </header>
       <section class="profile-number">
-        <router-link to="/login" class="profile-link">
+        <router-link :to="userInfo._id ? '/userinfo' : '/login'" class="profile-link">
           <div class="profile_image">
             <i class="iconfont icon-icon-person"></i>
           </div>
           <div class="user-info">
-            <p class="user-info-top">登录/注册</p>
+            <p class="user-info-top">{{userInfo.name || userInfo._id || '登录/注册'}}</p>
             <p>
               <span class="user-icon">
                 <i class="iconfont icon-icon-shouji icon-mobile"></i>
               </span>
-              <span class="icon-mobile-number">暂无绑定手机号</span>
+              <span class="icon-mobile-number">{{userInfo.phone || '暂无绑定手机号'}}</span>
             </p>
           </div>
           <span class="arrow">
@@ -93,12 +93,32 @@
           </div>
         </a>
       </section>
+      <Comfirm :btnNamee="'退出登陆'" :text="text" @ensure="loginOut" v-show="userInfo._id"/>
     </section>
   </div>
 </template>
 
 <script>
-export default {}
+import { mapState } from 'vuex'
+import Comfirm from '../../components/Comfirm/Comfirm'
+export default {
+  data () {
+    return {
+      text: '确定退出吗'
+    }
+  },
+  methods: {
+    loginOut () {
+      this.$store.dispatch('loginOut')
+    }
+  },
+  components: {
+    Comfirm
+  },
+  computed: {
+    ...mapState(['userInfo'])
+  }
+}
 </script>
 
 <style lang="stylus">
@@ -132,12 +152,11 @@ export default {}
               padding-bottom 8px
             .user-icon
               display inline-block
-              margin-left -15px
-              margin-right 5px
+              margin-left -3px
               width 20px
               height 20px
               .icon-mobile
-                font-size 30px
+                font-size 20px
                 vertical-align text-top
             .icon-mobile-number
               font-size 14px
