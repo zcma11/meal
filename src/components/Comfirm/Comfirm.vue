@@ -1,6 +1,5 @@
 <template>
   <div>
-    <div class="login-out" @click="ask">{{btnNamee}}</div>
     <div class="container" v-show="isShow">
       <div class="comfirm-box">
         <div class="content">
@@ -24,7 +23,6 @@ export default {
     }
   },
   props: {
-    btnNamee: String,
     text: String
   },
   methods: {
@@ -39,16 +37,9 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 $vw_base = 375
-  .login-out
-    background-color #ff1f00
-    margin-top 10px
-    width 100%
-    text-align center
-    line-height 53px
-    font-size 16px
-    color #fff
+$vh_base = 667
   .container
     position absolute
     left 0
@@ -80,10 +71,13 @@ $vw_base = 375
         align-items center
         >.title
           // height 30%
+          color: #000
           font-weight both
+          line-height 2.4vh
         >.text
           height 30%
           color #ccc
+          line-height 4.2vh
       >.comfirm
         width 100%
         height 30%

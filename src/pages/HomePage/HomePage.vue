@@ -34,7 +34,7 @@
       <!--首页附近商家-->
       <div class="msite_shop_list">
         <div class="shop_header">
-          <i class="iconfont icon-interface"></i>
+          <i class="iconfont icon-interface shop_icon"></i>
           <span class="shop_header_title">附近商家</span>
         </div>
         <ShopLists/>
@@ -68,7 +68,7 @@ export default {
       const arr = []
       category.forEach((item, index) => {
         const i = parseInt(index / 8)
-        arr[i] = arr[i] || []
+        if (!arr[i]) arr[i] = []
         arr[i].push(item)
       })
       return arr
@@ -83,11 +83,6 @@ export default {
     SwiperSlide,
     ShopLists
   },
-  mounted () {
-    // console.log('Current Swiper instance object', this.swiper)
-    // this.mySwiper.slideTo(3, 1000, false)
-    // this.mySwiper.autoplay.start()
-  },
   data () {
     return {
       baseUrl: 'http://fuss10.elemecdn.com',
@@ -99,7 +94,6 @@ export default {
           enable: true,
           disableOnInteraction: false
         },
-        // autoplay: true,
         pagination: {
           el: '.swiper-pagination',
           clickable: true
@@ -155,9 +149,10 @@ export default {
       .shop_header
         padding 10px 10px 0
         .shop_icon
-          margin-left 5px
+          margin-left 3px
           color #999
         .shop_header_title
+          margin-left 8px
           color #999
           font-size 14px
           line-height 20px

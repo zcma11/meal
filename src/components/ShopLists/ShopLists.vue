@@ -1,10 +1,10 @@
 <template>
   <div class="shop_container">
     <ul v-if="shops.length" class="shop_list">
-      <li class="shop_li border-1px" v-for="(shop, index) in shops" :key="index">
-        <a>
+      <li class="shop_li border-1px" v-for="shop in shops" :key="shop.id">
+        <router-link :to="`/shopdetail/${shop.id}`">
           <div class="shop_left">
-            <img class="shop_img" :src="baseUrl + shop.image_path" />
+            <img class="shop_img" :src="shop.image_path" />
           </div>
           <div class="shop_right">
             <section class="shop_detail_header">
@@ -31,7 +31,7 @@
               </p>
             </section>
           </div>
-        </a>
+        </router-link>
       </li>
     </ul>
     <ul v-else>
@@ -48,11 +48,6 @@ import Star from '../Star/Star'
 export default {
   components: {
     Star
-  },
-  data () {
-    return {
-      baseUrl: 'http://cangdu.org:8081/img/'
-    }
   },
   computed: {
     ...mapState(['shops'])

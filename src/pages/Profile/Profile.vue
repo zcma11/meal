@@ -93,7 +93,8 @@
           </div>
         </a>
       </section>
-      <Comfirm :btnNamee="'退出登陆'" :text="text" @ensure="loginOut" v-show="userInfo._id"/>
+      <div class="login-out" @click="$refs.comfirm.ask()">退出登陆</div>
+      <Comfirm class="Comfirm" :text="text" @ensure="loginOut" v-show="userInfo._id" ref="comfirm"/>
     </section>
   </div>
 </template>
@@ -121,7 +122,7 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 @import "../../assets/stylus/mixins.styl"
   .profile //我的
     width 100%
@@ -249,4 +250,12 @@ export default {
             .icon-icon-jiantou1
               color #bbb
               font-size 10px
+    .login-out
+      width 100%
+      text-align center
+      line-height 53px
+      margin-top 10px
+      font-size 16px
+      background-color #f00
+      color #fff
 </style>

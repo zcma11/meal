@@ -19,7 +19,6 @@ export default {
       while (arr.length < 5) {
         arr.push('off')
       }
-      console.log(arr)
       return arr
     }
   }
