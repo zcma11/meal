@@ -1,8 +1,8 @@
 <template>
-  <div class="goods" v-if="goods[ID]">
+  <div class="goods">
     <div class="menu-wrapper" ref="menuWrapper">
       <ul>
-        <li class="menu-item" @click="moveToCategory(index)" :class="{current: index===currentIndex}" v-for="(category, index) in goods[ID]" :key="index">
+        <li class="menu-item" @click="moveToCategory(index)" :class="{current: index===currentIndex}" v-for="(category, index) in goods[id]" :key="index">
           <span class="text bottom-border-1px">
             <img class="icon" v-if="category.icon" src="https://fuss10.elemecdn.com/0/6a/05b267f338acfeb8bd682d16e836dpng.png">
             {{category.category}}
@@ -12,7 +12,7 @@
     </div>
     <div class="foods-wrapper" >
       <ul ref="foodsList">
-        <li class="food-list-hook" v-for="(category, index) in goods[ID]" :key="index">
+        <li class="food-list-hook" v-for="(category, index) in goods[id]" :key="index">
           <h1 class="title">{{category.category}}</h1>
           <ul>
             <li @click="saveAndShowFocusFood(food)" class="food-item bottom-border-1px" v-for="(food, i) in category.food" :key="i">
@@ -103,10 +103,8 @@ export default {
       this.tops = tops
     }
   },
-  props: ['id'],
   data () {
     return {
-      ID: this.id * 1,
       scrollY: 0,
       tops: [],
       showFood: false, // 显示食物详情
@@ -122,6 +120,9 @@ export default {
       currentY = tops.findIndex((item, index) => y >= item && y < tops[index + 1])
       if (y < 0) currentY = 0
       return currentY
+    },
+    id () {
+      return this.$route.query.id
     }
   }
 }

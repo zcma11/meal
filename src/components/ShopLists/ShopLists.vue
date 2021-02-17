@@ -2,7 +2,7 @@
   <div class="shop_container">
     <ul v-if="shops.length" class="shop_list">
       <li class="shop_li border-1px" v-for="shop in shops" :key="shop.id">
-        <router-link :to="`/shopdetail/${shop.id}`">
+        <router-link :to="`/shopdetail?id=${shop.id}`">
           <div class="shop_left">
             <img class="shop_img" :src="shop.image_path" />
           </div>

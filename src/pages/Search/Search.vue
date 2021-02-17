@@ -1,25 +1,86 @@
 <template>
   <section class="search">
-    <header class="header">
-      <a class="header_title">
-        <span class="header_title_text">搜索</span>
-      </a>
-    </header>
-    <form class="search_form" action="#">
-      <input type="search" name="search" placeholder="请输入商家或美食名称" class="search_input" />
+    <Header :title="'搜索'"/>
+    <form class="search_form" @submit.prevent="search">
+      <input
+        type="search"
+        name="search"
+        placeholder="请输入商家或美食名称"
+        class="search_input"
+        v-model="keyword"
+      />
       <input type="submit" name="submit" class="search_submit" />
     </form>
+    <section class="list">
+      <ul class="list_container" v-if="!isShow">
+        <router-link tag="li" :to="{ path: '/shopdetail', query:{ id: result.id } }" class="list_li" v-for="(result, index) in searchResult" :key="index">
+          <section class="item_left">
+            <img
+              :src="`http://cangdu.org:8001/img/${result.image_path}`"
+              class="restaurant_img"
+            />
+          </section>
+          <section class="item_right">
+            <div class="item_right_text">
+              <p><span>{{result.name}}</span></p>
+              <p>月售 {{result.recent_order_num}} 单</p>
+              <p>{{result.float_minimum_order_amount}} 元起送 / 距离 {{result.distance}}</p>
+            </div>
+          </section>
+        </router-link>
+      </ul>
+      <p class="search_none" v-else>搜索不到匹配的结果</p>
+    </section>
   </section>
 </template>
 
 <script>
-export default {}
+import { mapState } from 'vuex'
+import BScroll from 'better-scroll'
+import Header from '../../components/Header/Header'
+export default {
+  data () {
+    return {
+      keyword: '',
+      isShow: false
+    }
+  },
+  computed: {
+    ...mapState(['searchResult'])
+  },
+  mounted () {
+    this.resultScroll = new BScroll('.list', { click: true })
+  },
+  watch: {
+    searchResult (val) {
+      if (!val.length) {
+        this.isShow = true
+      }
+      this.$nextTick(() => {
+        this.resultScroll.refresh()
+      })
+    }
+  },
+  methods: {
+    search () {
+      const keyword = this.keyword.trim()
+      if (!this.keyword) { return }
+      this.$store.dispatch('searchShop', { keyword })
+      this.isShow = false
+    }
+  },
+  components: {
+    Header
+  }
+}
 </script>
 
 <style lang="stylus">
 @import "../../assets/stylus/mixins.styl"
-  .search  //搜索
+  .search
     width 100%
+    height 100%
+    overflow hidden
     .search_form
       clearFix()
       margin-top 45px
@@ -45,4 +106,36 @@ export default {}
           font-size 16px
           color #fff
           background-color #02a774
+
+    .list
+      height 76.7vh
+      overflow hidden
+      .list_container
+        background-color: #fff
+        .list_li
+          display: flex;
+          justify-content: center;
+          padding: 10px
+          border-bottom: 1px solid $bc;
+          .item_left
+            margin-right: 10px
+            .restaurant_img
+              width 50px
+              height 50px
+              display block
+          .item_right
+            font-size 12px
+            flex 1
+            .item_right_text
+              p
+                line-height 12px
+                margin-bottom 6px
+                &:last-child
+                  margin-bottom 0
+    .search_none
+      margin: 0 auto
+      color: #333
+      background-color: #fff
+      text-align: center
+      margin-top: 0.125rem
 </style>

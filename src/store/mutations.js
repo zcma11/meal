@@ -10,7 +10,8 @@ import {
   RECEIVE_GOODS,
   ADD_CART,
   SUB_CART,
-  CLEAR_CART
+  CLEAR_CART,
+  SET_SEARCH_RESULT
 } from './mutations-type'
 
 export default {
@@ -29,17 +30,18 @@ export default {
   [RESET_USER_INFO] (state) {
     state.userInfo = {}
   },
+  [SET_SEARCH_RESULT] (state, { searchResult }) {
+    state.searchResult = searchResult
+  },
   // mock
   [RECEIVE_INFO] (state, { id, info }) {
     state.info = { ...state.info, [id]: info }
   },
-  [RECEIVE_RATINGS] (state, { ratings }) {
-    state.comment = ratings
+  [RECEIVE_RATINGS] (state, { id, ratings }) {
+    Vue.set(state.comment, id, ratings)
   },
   [RECEIVE_GOODS] (state, { id, goods }) {
-    const arr = [...state.goods]
-    arr[id] = goods
-    state.goods = arr
+    Vue.set(state.goods, id, goods)
   },
   // cart
   [ADD_CART] (state, { id, food }) {

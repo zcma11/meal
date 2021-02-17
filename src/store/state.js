@@ -5,8 +5,9 @@ export default {
   category: [],
   shops: [],
   userInfo: {},
-  goods: [],
-  comment: [],
+  goods: {},
+  comment: {},
   info: {},
-  shopCart: {}
+  shopCart: {},
+  searchResult: []
 }

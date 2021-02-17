@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import HomePage from '../pages/HomePage/HomePage'
+
+// import HomePage from '../pages/HomePage/HomePage'
 import Orders from '../pages/Orders/Orders'
 import Profile from '../pages/Profile/Profile'
 import Search from '../pages/Search/Search'
@@ -9,8 +10,8 @@ import ShopDetail from '../pages/ShopDetail/ShopDetail'
 import ShopAppraise from '../pages/ShopDetail/ShopAppraise/ShopAppraise'
 import ShopGoods from '../pages/ShopDetail/ShopGoods/ShopGoods'
 import ShopInfo from '../pages/ShopDetail/ShopInfo/ShopInfo'
-import GoodsList from '../pages/ShopDetail/ShopGoods/GoodsList/GoodsList'
 
+const HomePage = () => import('../pages/HomePage/HomePage')
 Vue.use(VueRouter)
 
 const routes = [
@@ -47,9 +48,8 @@ const routes = [
     component: Login
   },
   {
-    path: '/shopdetail/:id',
+    path: '/shopdetail',
     component: ShopDetail,
-    props: true,
     children: [
       {
         path: 'appraise',
@@ -57,18 +57,10 @@ const routes = [
       },
       {
         path: 'goods',
-        props: true,
         component: ShopGoods,
-        children: [
-          {
-            path: 'list',
-            component: GoodsList
-          },
-          {
-            path: '',
-            redirect: 'list'
-          }
-        ]
+        meta: {
+          showCart: true
+        }
       },
       {
         path: 'info',

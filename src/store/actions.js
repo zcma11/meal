@@ -9,7 +9,8 @@ import {
   RECEIVE_GOODS,
   ADD_CART,
   SUB_CART,
-  CLEAR_CART
+  CLEAR_CART,
+  SET_SEARCH_RESULT
 } from './mutations-type'
 import {
   reqPosition,
@@ -19,7 +20,8 @@ import {
   reqUserinfo,
   reqShopInfo,
   reqShopAppraise,
-  reqShopGoods
+  reqShopGoods,
+  reqSearchShop
 } from '../api'
 
 export default {
@@ -58,6 +60,14 @@ export default {
       commit(SET_USER_INFO, { userInfo })
     }
   },
+  async searchShop ({ commit, state }, { keyword }) {
+    const geohash = state.latitude + ',' + state.longitude
+    const result = await reqSearchShop(geohash, keyword)
+    if (result.code === 0) {
+      const searchResult = result.data
+      commit(SET_SEARCH_RESULT, { searchResult })
+    }
+  },
   // mock
   async getShopInfo ({ commit }, { id }) {
     const result = await reqShopInfo()
@@ -66,12 +76,14 @@ export default {
       commit(RECEIVE_INFO, { id, info })
     }
   },
-  async getShopComment ({ commit }, cb) {
+  async getShopComment ({ commit }, { id, scrollInit }) {
     const result = await reqShopAppraise()
     if (result.code === 0) {
-      const ratings = result.data
-      commit(RECEIVE_RATINGS, { ratings })
-      cb && cb()
+      if (id !== 'no') {
+        const ratings = result.data
+        commit(RECEIVE_RATINGS, { id, ratings })
+      }
+      scrollInit && scrollInit()
     }
   },
   async getShopGoods ({ commit }, { id, scrollInit }) {

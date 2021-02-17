@@ -3,17 +3,19 @@
     <ShopDetailHeader :id="id" :shop="shop"/>
     <div class="tab">
       <div class="tab-item">
-        <router-link :to="`/shopdetail/${id}/goods`" replace>点餐</router-link>
+        <router-link :to="`/shopdetail/goods?id=${id}`" replace>点餐</router-link>
       </div>
       <div class="tab-item">
-        <router-link :to="`/shopdetail/${id}/appraise`" replace>评价</router-link>
+        <router-link :to="`/shopdetail/appraise?id=${id}`" replace>评价</router-link>
       </div>
       <div class="tab-item">
-        <router-link :to="`/shopdetail/${id}/info`" replace>商家</router-link>
+        <router-link :to="`/shopdetail/info?id=${id}`" replace>商家</router-link>
       </div>
     </div>
-    <router-view></router-view>
-    <ShopCart :id="id" :fee="shop.float_delivery_fee" :baseFare="shop.float_minimum_order_amount"/>
+    <keep-alive>
+      <router-view :shop="shop"></router-view>
+    </keep-alive>
+    <ShopCart v-show="$route.meta.showCart" :id="id" :fee="shop.float_delivery_fee" :baseFare="shop.float_minimum_order_amount"/>
   </div>
 </template>
 
@@ -22,10 +24,14 @@ import ShopDetailHeader from '../../components/ShopDetailHeader/ShopDetailHeader
 import ShopCart from '../../components/ShopCart/ShopCart'
 export default {
   name: 'shopDetail',
-  props: ['id'],
   data () {
     return {
       shop: {}
+    }
+  },
+  computed: {
+    id () {
+      return this.$route.query.id
     }
   },
   mounted () {
