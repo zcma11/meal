@@ -25,13 +25,13 @@
       <div class="split"></div>
       <div class="ratingselect">
         <div class="rating-type border-1px">
-          <span class="block" :class="{ active: type === 0}" @click="readFilter(0, allComments)">
+          <span class="block" :class="{ active: type === 0}" @click="readFilter(0)">
             全部<span class="count">{{allComments.length}}</span>
           </span>
-          <span class="block positive" :class="{ active: type === 1}" @click="readFilter(1, satisfied)">
+          <span class="block positive" :class="{ active: type === 1}" @click="readFilter(1)">
             满意<span class="count">{{satisfied.length}}</span>
           </span>
-          <span class="block negative" :class="{ active: type === 2}" @click="readFilter(2, dissatisfied)">
+          <span class="block negative" :class="{ active: type === 2}" @click="readFilter(2)">
             不满意<span class="count">{{dissatisfied.length}}</span>
           </span>
         </div>
@@ -77,7 +77,6 @@ import { mapState } from 'vuex'
 export default {
   data () {
     return {
-      filterComment: [],
       type: 0, // 0: 全部 1: 满意 2: 不满意
       commentTextNotNull: false // 是否过滤text为空的
     }
@@ -89,6 +88,19 @@ export default {
   },
   computed: {
     ...mapState(['comment', 'info']),
+    filterComment () {
+      const { type } = this
+      let result
+
+      if (type === 0) result = this.allComments
+      else if (type === 1) {
+        result = this.satisfied
+      } else if (type === 2) {
+        result = this.dissatisfied
+      }
+
+      return this.commentTextNotNull ? result.filter(comment => comment.text !== '') : result
+    },
     allComments () {
       const comments = this.comment[this.id] || []
       return comments
@@ -123,21 +135,13 @@ export default {
       this.appraiseScroll = new BScorll('.ratings', { click: true })
     },
 
-    readFilter (type, val) {
+    readFilter (type) {
       if (this.type === type) { return }
-      // 获取数据
-      const accept = val || this.filterComment
       // 修改状态
       if (typeof type === 'number') {
         this.type = type
       } else {
         this.commentTextNotNull = !this.commentTextNotNull
-      }
-      // 返回数据
-      if (this.commentTextNotNull) { // 如果true就再过滤一遍
-        this.filterComment = accept.filter(comment => comment.text !== '')
-      } else {
-        this.filterComment = accept
       }
       // 更新滑动
       this.$nextTick(() => {

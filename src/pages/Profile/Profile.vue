@@ -93,7 +93,7 @@
           </div>
         </a>
       </section>
-      <div class="login-out" @click="$refs.comfirm.ask()">退出登陆</div>
+      <div class="login-out" v-if="userInfo._id" @click="$refs.comfirm.ask()">退出登陆</div>
       <Comfirm class="Comfirm" :text="text" @ensure="loginOut" v-show="userInfo._id" ref="comfirm"/>
     </section>
   </div>
