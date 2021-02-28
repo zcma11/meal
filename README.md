@@ -1,4 +1,10 @@
 # meal
+*请先运行服务器，需要MongoDB服务支持
+```
+cd server
+npm install
+npm start
+```
 
 ## Project setup
 ```
